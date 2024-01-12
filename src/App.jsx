@@ -78,7 +78,7 @@ export const App = () => {
   return (
     <div>
       <h1>Three in a Row</h1>
-      {winner ? <h1>hay un ganador y es {winner}</h1> : null}
+      {winner ? <h1>The Winner is: "{winner}"</h1> : null}
       <ButtonGrid
         toggleTurn={toggleTurn}
         turnUser1={turnUser1}
