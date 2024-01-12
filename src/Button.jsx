@@ -14,7 +14,7 @@ export const Button = (props) => {
       setCard(user);
       toggleTurn();
       const boxes = addBox(id);
-      checkIfWinner(boxes, user);
+      checkIfWinner(boxes, card);
     }
   };
 
