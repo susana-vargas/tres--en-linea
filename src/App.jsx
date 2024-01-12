@@ -5,13 +5,14 @@ export const App = () => {
   const [turnUser1, setTurnUser1] = useState(true);
   const [boxesPlayerOne, setBoxesPlayerOne] = useState([]);
   const [boxesPlayerTwo, setBoxesPlayerTwo] = useState([]);
+  const [winner, setWinner] = useState('');
 
   const toggleTurn = () => {
     setTurnUser1(!turnUser1);
   };
 
-
-  const checkIfWinner = (userBoxes) => {
+  const checkIfWinner = (userBoxes, card) => {
+    console.log('checkIfWinner', userBoxes);
     const winCombinations = [
       [1, 2, 3],
       [4, 5, 6],
@@ -22,75 +23,68 @@ export const App = () => {
       [1, 5, 9],
       [7, 5, 3],
     ];
-  
+
     let i3 = 0;
     let isWinner = false;
 
     while (i3 < winCombinations.length) {
       const winCombination = winCombinations[i3];
-  
+
       const userWinBoxes = [];
       let i1 = 0;
-  
+
       while (i1 < winCombination.length) {
         const winElement = winCombination[i1];
-  
+
         let i2 = 0;
         while (i2 < userBoxes.length) {
           const userBox = userBoxes[i2];
-  
+
           if (winElement === userBox) {
             userWinBoxes.push(userBox);
           }
-  
+
           if (userWinBoxes.length === 3) {
             isWinner = true;
           }
 
           i2++;
         }
-  
+
         i1++;
       }
 
       i3++;
     }
 
-    return isWinner;
+    if (isWinner) {
+      console.log('is winner', card);
+      setWinner(card);
+    }
   };
-  
-  // const isWinner1 = checkIfWinner();
-  // console.log(isWinner1);
 
   const addBox = (id) => {
-    const user = turnUser1 ? 'usuario 1' : 'usuario 2';
-    console.log('la casilla ' + id + ' se agrega al ' + user);
-
     if (turnUser1) {
-      const newBoxesPlayerOne = boxesPlayerOne.map((box) => box)
-      newBoxesPlayerOne.push(id);
-      setBoxesPlayerOne(newBoxesPlayerOne)
-      console.log(newBoxesPlayerOne,user);
-      checkIfWinner(newBoxesPlayerOne)
+      const newBoxesPlayerOne = boxesPlayerOne.concat(id);
+      setBoxesPlayerOne(newBoxesPlayerOne);
+      return newBoxesPlayerOne;
     } else {
-      const newBoxesPlayerTwo = boxesPlayerTwo.map((box) => box)
-      newBoxesPlayerTwo.push(id)
-      setBoxesPlayerTwo(newBoxesPlayerTwo)
-      console.log(newBoxesPlayerTwo,user);
-      checkIfWinner(newBoxesPlayerTwo)
+      const newBoxesPlayerTwo = boxesPlayerTwo.concat(id);
+      setBoxesPlayerTwo(newBoxesPlayerTwo);
+      return newBoxesPlayerTwo;
     }
-
-  }
-  
-  // if (isWinner1 === true) {
-  //   console.log('Ha Ganado!');
-  // }
-
+  };
 
   return (
     <div>
       <h1>Three in a Row</h1>
-      <ButtonGrid toggleTurn={toggleTurn} turnUser1={turnUser1} addBox={addBox} />
+      {winner ? <h1>hay un ganador y es {winner}</h1> : null}
+      <ButtonGrid
+        toggleTurn={toggleTurn}
+        turnUser1={turnUser1}
+        addBox={addBox}
+        checkIfWinner={checkIfWinner}
+      />
     </div>
   );
 };

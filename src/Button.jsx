@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 export const Button = (props) => {
   const [occupied, setOccupied] = useState(false);
-  const { id, toggleTurn, turnUser1, addBox } = props;
+  const { id, toggleTurn, turnUser1, addBox, checkIfWinner } = props;
   const [card, setCard] = useState('');
   const user = turnUser1 ? 'x' : 'o';
 
@@ -13,10 +13,10 @@ export const Button = (props) => {
       setOccupied(true);
       setCard(user);
       toggleTurn();
-      addBox(id);
+      const boxes = addBox(id);
+      checkIfWinner(boxes, user);
     }
   };
-  
 
   return (
     <>
